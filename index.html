@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life of Chai - Red & White Theme</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+@keyframes scale-in { 0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+@keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes slide-down { 0% { transform: translateY(-10px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+.modal-animation { animation: scale-in 0.3s ease-out; }
+.fade-in-animation { animation: fade-in 0.3s ease-in; }
+.store-modal-animation { animation: scale-in 0.4s ease-out; }
+.slide-down-animation { animation: slide-down 0.2s ease-out forwards; }
+</style>
+<script>
+tailwind.config = { theme: { extend: { colors: { 'loc-red': '#dc2626', 'loc-darkred': '#991b1b', 'loc-bg': '#ffffff', 'loc-surface': '#f9fafb', 'zomato': '#E23744' } } } }
+</script>
+</head>
+<body class="bg-loc-bg text-gray-800 font-sans selection:bg-red-200 relative">
+
+<a href="#" class="fixed bottom-6 right-6 bg-zomato hover:bg-red-600 text-white px-6 py-4 rounded-full font-extrabold shadow-2xl z-40 flex items-center gap-3 transition-transform hover:-translate-y-1">
+<span class="text-2xl">🛵</span> Order on Zomato
+</a>
+
+<div id="modalOverlay" class="fixed inset-0 bg-black/60 z-50 hidden transition-opacity duration-300">
+<div class="modal-content fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-3xl p-10 w-[500px] max-w-[90vw] shadow-2xl modal-animation relative z-[51] border-t-8 border-loc-red">
+<button id="closeModal" class="absolute top-5 right-5 text-gray-400 hover:text-loc-red focus:outline-none transition">
+<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+</svg>
+</button>
+<div class="text-center">
+<span class="block text-loc-red text-3xl font-extrabold mb-4 selection:bg-red-200">JOIN OUR CHAI CLUB!</span>
+<p class="text-xl text-gray-600 mb-8">Get <span class="text-loc-red font-bold text-2xl">10% Off</span> your next visit. <br>Enter your details and start brewing.</p>
+<div class="space-y-4 mb-6 text-left">
+<input type="text" id="subName" placeholder="Full Name" class="w-full px-5 py-3 rounded-lg border border-gray-200 focus:border-loc-red focus:ring-1 focus:ring-loc-red transition placeholder:text-gray-400">
+<input type="email" id="subEmail" placeholder="Email Address" class="w-full px-5 py-3 rounded-lg border border-gray-200 focus:border-loc-red focus:ring-1 focus:ring-loc-red transition placeholder:text-gray-400">
+</div>
+<button id="subscribeBtn" class="w-full bg-loc-red hover:bg-loc-darkred text-white font-bold py-4 px-8 rounded-lg text-lg transition shadow-md">SUBSCRIBE NOW</button>
+<div id="subMessage" class="hidden"></div>
+<p class="text-sm text-gray-400 mt-4">One-time offer. Check your email. <a href="#" class="underline hover:text-loc-red">Terms Apply</a>.</p>
+</div>
+</div>
+</div>
+
+<div id="storeModalOverlay" class="fixed inset-0 bg-black/70 z-50 hidden transition-opacity duration-400">
+<div class="store-modal-content fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-3xl p-10 w-[900px] max-w-[90vw] shadow-2xl store-modal-animation relative z-[51]">
+<button id="closeStoreModal" class="absolute top-5 right-5 text-gray-400 hover:text-loc-red focus:outline-none transition">
+<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+</svg>
+</button>
+<div class="text-center grid grid-cols-1 md:grid-cols-[1fr_250px] gap-10">
+<div class="space-y-6 text-left">
+<h4 class="text-loc-red text-4xl font-extrabold">Store Locator</h4>
+<p class="text-xl text-gray-600">Find our 30+ outlets. Find your <span class="text-loc-red font-semibold">"LIFE OF CHAI !"</span>.</p>
+<div class="h-96 w-full rounded-2xl overflow-hidden border border-gray-200">
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3721.579169429598!2d79.0381!3d21.1165!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDA2JzU5LjQiTiA3OcKwMDInMTcuMiJF!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
+</div>
+<div class="bg-loc-surface border border-gray-100 rounded-2xl p-6 text-left space-y-4">
+<h5 class="font-bold text-lg mb-2 text-gray-900">Popular Outlets</h5>
+<p class="text-sm text-gray-600 border-l-2 border-loc-red pl-2">Trimurti Nagar (Premium)</p>
+<p class="text-sm text-gray-600 border-l-2 border-transparent hover:border-loc-red pl-2 transition cursor-pointer">Manewada Square</p>
+<p class="text-sm text-gray-600 border-l-2 border-transparent hover:border-loc-red pl-2 transition cursor-pointer">Vikas Nagar</p>
+<p class="text-sm text-gray-600 border-l-2 border-transparent hover:border-loc-red pl-2 transition cursor-pointer">Ganeshpeth</p>
+<button class="w-full bg-loc-red hover:bg-loc-darkred text-white font-semibold py-3 px-6 rounded-lg text-sm mt-6 transition">FIND OUTLET</button>
+</div>
+</div>
+</div>
+</div>
+
+<nav class="bg-white shadow-sm sticky top-0 z-40">
+<div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+<div class="flex items-center space-x-2">
+<span class="font-black text-3xl text-loc-red tracking-wider">LOC</span>
+</div>
+<div class="hidden md:flex space-x-8">
+<a href="#" class="text-gray-700 hover:text-loc-red px-1 py-1 text-sm font-bold transition hover:-translate-y-0.5">HOME</a>
+<a href="#" class="text-gray-700 hover:text-loc-red px-1 py-1 text-sm font-bold transition hover:-translate-y-0.5">ABOUT US</a>
+<a href="#" class="text-gray-700 hover:text-loc-red px-1 py-1 text-sm font-bold transition hover:-translate-y-0.5">FRANCHISE</a>
+<a href="#" class="text-gray-700 hover:text-loc-red px-1 py-1 text-sm font-bold transition hover:-translate-y-0.5">STORE LOCATOR</a>
+</div>
+<div class="flex items-center gap-4">
+<button id="openModalHero" class="hidden md:block bg-white border-2 border-loc-red text-loc-red hover:bg-loc-red hover:text-white font-bold py-2.5 px-6 rounded-lg text-sm transition shadow-sm">CONTACT US</button>
+<button id="mobileMenuBtn" class="md:hidden text-gray-800 hover:text-loc-red focus:outline-none">
+<svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+</svg>
+</button>
+</div>
+</div>
+<div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg z-30 slide-down-animation">
+<div class="px-6 pt-4 pb-6 space-y-4">
+<a href="#" class="block text-gray-800 font-bold hover:text-loc-red">HOME</a>
+<a href="#" class="block text-gray-800 font-bold hover:text-loc-red">ABOUT US</a>
+<a href="#" class="block text-gray-800 font-bold hover:text-loc-red">FRANCHISE</a>
+<a href="#" class="block text-gray-800 font-bold hover:text-loc-red">STORE LOCATOR</a>
+<button class="w-full bg-loc-red text-white font-bold py-3 rounded-lg mt-4">CONTACT US</button>
+</div>
+</div>
+</nav>
+
+<header class="relative bg-loc-surface pt-24 pb-32 overflow-hidden border-b border-gray-100">
+<div class="max-w-7xl mx-auto px-6 text-center">
+<h1 id="heroTitle" class="text-6xl md:text-7xl font-extrabold text-gray-900 mb-6 leading-tight transition-all duration-500">HAPPINESS RIGHT IN YOUR CUP<br><span class="text-loc-red">Nagpur's Favorite Chai</span></h1>
+<p class="text-2xl text-gray-500 mb-12 font-medium">Experience authentic taste at over 30 locations.</p>
+<div class="flex flex-wrap justify-center gap-8 mb-20">
+<div class="bg-white border border-gray-100 shadow-lg rounded-2xl p-8 w-56 text-center hover:shadow-xl hover:border-red-100 transition">
+<span class="block text-5xl font-black text-loc-red mb-3">30+</span>
+<span class="text-gray-600 font-bold text-lg uppercase tracking-wide">Outlets</span>
+</div>
+<div class="bg-white border border-gray-100 shadow-lg rounded-2xl p-8 w-56 text-center hover:shadow-xl hover:border-red-100 transition">
+<span class="block text-5xl font-black text-loc-red mb-3">10+</span>
+<span class="text-gray-600 font-bold text-lg uppercase tracking-wide">Cities</span>
+</div>
+<div class="bg-white border border-gray-100 shadow-lg rounded-2xl p-8 w-56 text-center hover:shadow-xl hover:border-red-100 transition">
+<span class="block text-5xl font-black text-loc-red mb-3">30k+</span>
+<span class="text-gray-600 font-bold text-lg uppercase tracking-wide">Daily Cups</span>
+</div>
+</div>
+<button id="openStoreModalBtn" class="mx-auto bg-loc-red hover:bg-loc-darkred text-white font-extrabold py-5 px-10 rounded-full text-lg transition shadow-lg hover:shadow-xl flex items-center gap-3">
+<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+</svg>
+FIND AN OUTLET
+</button>
+</div>
+</header>
+
+<section class="py-24 bg-white">
+<div class="max-w-7xl mx-auto px-6 text-center">
+<h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-16 uppercase tracking-tight">What We Offer</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+<div class="bg-loc-surface p-8 rounded-2xl border border-gray-100 hover:border-red-200 hover:-translate-y-1 transition-all shadow-sm hover:shadow-md group">
+<div class="bg-red-50 group-hover:bg-loc-red h-16 w-16 mx-auto rounded-xl flex items-center justify-center mb-6 transition-colors">
+<span class="text-3xl group-hover:text-white transition-colors">✨</span>
+</div>
+<h3 class="font-bold text-xl mb-3 text-gray-900 group-hover:text-loc-red transition-colors">Youthful Ambience</h3>
+<p class="text-gray-500 text-sm leading-relaxed">Step into our vibrant space, inviting you to relax and connect.</p>
+</div>
+<div class="bg-loc-surface p-8 rounded-2xl border border-gray-100 hover:border-red-200 hover:-translate-y-1 transition-all shadow-sm hover:shadow-md group">
+<div class="bg-red-50 group-hover:bg-loc-red h-16 w-16 mx-auto rounded-xl flex items-center justify-center mb-6 transition-colors">
+<span class="text-3xl group-hover:text-white transition-colors">☕</span>
+</div>
+<h3 class="font-bold text-xl mb-3 text-gray-900 group-hover:text-loc-red transition-colors">Authentic Taste</h3>
+<p class="text-gray-500 text-sm leading-relaxed">Savor authentic flavour with our chai kits—tradition wherever you go!</p>
+</div>
+<div class="bg-loc-surface p-8 rounded-2xl border border-gray-100 hover:border-red-200 hover:-translate-y-1 transition-all shadow-sm hover:shadow-md group">
+<div class="bg-red-50 group-hover:bg-loc-red h-16 w-16 mx-auto rounded-xl flex items-center justify-center mb-6 transition-colors">
+<span class="text-3xl group-hover:text-white transition-colors">💰</span>
+</div>
+<h3 class="font-bold text-xl mb-3 text-gray-900 group-hover:text-loc-red transition-colors">Pocket Friendly</h3>
+<p class="text-gray-500 text-sm leading-relaxed">Enjoy our pocket-friendly menu—deliciousness without breaking the bank!</p>
+</div>
+<div class="bg-loc-surface p-8 rounded-2xl border border-gray-100 hover:border-red-200 hover:-translate-y-1 transition-all shadow-sm hover:shadow-md group">
+<div class="bg-red-50 group-hover:bg-loc-red h-16 w-16 mx-auto rounded-xl flex items-center justify-center mb-6 transition-colors">
+<span class="text-3xl group-hover:text-white transition-colors">🤝</span>
+</div>
+<h3 class="font-bold text-xl mb-3 text-gray-900 group-hover:text-loc-red transition-colors">Entrepreneurs</h3>
+<p class="text-gray-500 text-sm leading-relaxed">We empower entrepreneurs with delicious food and inspiring ideas!</p>
+</div>
+<div class="bg-loc-surface p-8 rounded-2xl border border-gray-100 hover:border-red-200 hover:-translate-y-1 transition-all shadow-sm hover:shadow-md group">
+<div class="bg-red-50 group-hover:bg-loc-red h-16 w-16 mx-auto rounded-xl flex items-center justify-center mb-6 transition-colors">
+<span class="text-3xl group-hover:text-white transition-colors">🍳</span>
+</div>
+<h3 class="font-bold text-xl mb-3 text-gray-900 group-hover:text-loc-red transition-colors">Open Kitchen</h3>
+<p class="text-gray-500 text-sm leading-relaxed">Our open kitchens show our commitment to cleanliness and care.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="py-28 bg-loc-red text-white relative overflow-hidden">
+<div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+<h2 class="text-4xl md:text-5xl font-black mb-8 leading-tight tracking-wide">UNCOVER THE ESSENCE OF LOC</h2>
+<div class="w-24 h-1.5 bg-white mx-auto mb-10 rounded"></div>
+<p class="text-xl md:text-2xl leading-relaxed text-red-50 font-medium">
+Nestled in the vibrant heart of Nagpur, <span class="font-black text-white">LOC</span> is more than just a tea spot—it's a sanctuary where every sip of chai sparks conversation and connection. From its charming beginnings in Manewada Square, it has blossomed into a beloved sanctuary serving thousands of cups filled with joy each day.
+</p>
+</div>
+</section>
+
+<section class="py-20 bg-white border-b border-gray-100">
+<div class="max-w-7xl mx-auto px-6 text-center">
+<h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-12 uppercase tracking-tight">Our Vibe</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="h-80 rounded-3xl overflow-hidden shadow-md group">
+<img src="https://b.zmtcdn.com/data/pictures/5/20621485/75d396a47f84729ed6b0fb675b08c83b.jpg" alt="Cafe Vibe 1" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+</div>
+<div class="h-80 rounded-3xl overflow-hidden shadow-md group">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQgYyH8UOms9GshOGLsJ3IBhusPvj8tEKgNmlGedDY8bZPzIoxpAN8_man&s=10" alt="Cafe Vibe 2" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+</div>
+<div class="h-80 rounded-3xl overflow-hidden shadow-md group">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpp-OtTTBuA6zC7B0LKIwhNrw-6oTVqhUZLVJB1Iz_6DheoqSmFH1cIMA&s=10" alt="Cafe Vibe 3" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+</div>
+</div>
+</div>
+</section>
+
+<section class="py-24 bg-loc-surface">
+<div class="max-w-7xl mx-auto px-6 text-center">
+<h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-16 uppercase tracking-tight">Signature Dishes</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+<div class="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-red-200 transition duration-300 overflow-hidden">
+<div class="h-64 overflow-hidden relative bg-gray-50">
+<img src="./images/adrak-tea.jpg" alt="Adrak & Elaichi Tea" onerror="this.onerror=null; this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSblJl98n47tsP36nt1XW2rAhvYRheBSHBskYoNpNTDWw&s=10'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+</div>
+<div class="p-8 text-left border-t border-gray-50 relative bg-white z-10">
+<div class="flex items-center justify-between gap-4 mb-3">
+<h3 class="font-black text-2xl text-gray-900 group-hover:text-loc-red transition">Adrak & Elaichi Tea</h3>
+</div>
+<p class="text-gray-500 text-base leading-relaxed">Enjoy a trip down memory lane with our Adrak and Elaichi chai and more!</p>
+</div>
+</div>
+<div class="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-red-200 transition duration-300 overflow-hidden">
+<div class="h-64 overflow-hidden relative bg-gray-50">
+<img src="./images/bun-maska.jpg" alt="Bun Maska" onerror="this.onerror=null; this.src='https://static.toiimg.com/thumb/73696383.cms?imgsize=299465&width=800&height=800'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+</div>
+<div class="p-8 text-left border-t border-gray-50 relative bg-white z-10">
+<div class="flex items-center justify-between gap-4 mb-3">
+<h3 class="font-black text-2xl text-gray-900 group-hover:text-loc-red transition">Bun Maska</h3>
+</div>
+<p class="text-gray-500 text-base leading-relaxed">Enjoy our Bun Maska—soft, buttery bread with delightful sweetness!</p>
+</div>
+</div>
+<div class="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-red-200 transition duration-300 overflow-hidden">
+<div class="h-64 overflow-hidden relative bg-gray-50">
+<img src="./images/maggi.jpg" alt="LOC Special Maggi" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1612927601601-6638404737ce?w=800&q=80'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+</div>
+<div class="p-8 text-left border-t border-gray-50 relative bg-white z-10">
+<div class="flex items-center justify-between gap-4 mb-3">
+<h3 class="font-black text-2xl text-gray-900 group-hover:text-loc-red transition">LOC Special Maggi</h3>
+</div>
+<p class="text-gray-500 text-base leading-relaxed">Dive into our unique Maggi with fresh veggies and gooey cheese!</p>
+</div>
+</div>
+<div class="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-red-200 transition duration-300 overflow-hidden">
+<div class="h-64 overflow-hidden relative bg-gray-50">
+<img src="./images/coffee.jpg" alt="Classic Hot Coffee" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+</div>
+<div class="p-8 text-left border-t border-gray-50 relative bg-white z-10">
+<div class="flex items-center justify-between gap-4 mb-3">
+<h3 class="font-black text-2xl text-gray-900 group-hover:text-loc-red transition">Classic Hot Coffee</h3>
+</div>
+<p class="text-gray-500 text-base leading-relaxed">Warm your soul with our classic hot coffee—timeless in every cup!</p>
+</div>
+</div>
+<div class="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-red-200 transition duration-300 overflow-hidden">
+<div class="h-64 overflow-hidden relative bg-gray-50">
+<img src="./images/vada-pav.jpg" alt="Veg Crispy Vada Pav" onerror="this.onerror=null; this.src='https://www.vegrecipesofindia.com/wp-content/uploads/2025/12/vada-pav-1.jpg'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+</div>
+<div class="p-8 text-left border-t border-gray-50 relative bg-white z-10">
+<div class="flex items-center justify-between gap-4 mb-3">
+<h3 class="font-black text-2xl text-gray-900 group-hover:text-loc-red transition">Veg Crispy Vada Pav</h3>
+</div>
+<p class="text-gray-500 text-base leading-relaxed">Experience a crunchy adventure with our Veg Crispy Vada Pav!</p>
+</div>
+</div>
+<div class="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-red-200 transition duration-300 overflow-hidden">
+<div class="h-64 overflow-hidden relative bg-gray-50">
+<img src="./images/shake.jpg" alt="KitKat Shake" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=800&q=80'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+</div>
+<div class="p-8 text-left border-t border-gray-50 relative bg-white z-10">
+<div class="flex items-center justify-between gap-4 mb-3">
+<h3 class="font-black text-2xl text-gray-900 group-hover:text-loc-red transition">KitKat Shake</h3>
+</div>
+<p class="text-gray-500 text-base leading-relaxed">Enjoy a chocolaty meltdown with crunchy KitKat in this LOC fan favourite!</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="py-24 bg-white border-t border-gray-100">
+<div class="max-w-7xl mx-auto px-6 text-center">
+<h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-16 uppercase tracking-tight">What People Say</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="bg-loc-surface p-8 rounded-2xl border border-gray-100 shadow-sm text-left relative">
+<div class="text-loc-red text-2xl mb-4">★★★★★</div>
+<p class="text-gray-600 font-medium leading-relaxed mb-6">"Best place in Nagpur to hang out with friends. The Adrak Chai is authentic and the Bun Maska is super soft. Highly recommended!"</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-gray-300 rounded-full overflow-hidden">
+<img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=200&q=80" alt="Customer" class="w-full h-full object-cover">
+</div>
+<div>
+<h5 class="font-bold text-gray-900">Rahul M.</h5>
+<p class="text-sm text-gray-500">Local Guide</p>
+</div>
+</div>
+</div>
+<div class="bg-loc-surface p-8 rounded-2xl border border-gray-100 shadow-sm text-left relative">
+<div class="text-loc-red text-2xl mb-4">★★★★★</div>
+<p class="text-gray-600 font-medium leading-relaxed mb-6">"The youthful vibe and open kitchen concept is great. You can see how clean everything is. Plus, very pocket friendly!"</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-gray-300 rounded-full overflow-hidden">
+<img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80" alt="Customer" class="w-full h-full object-cover">
+</div>
+<div>
+<h5 class="font-bold text-gray-900">Sneha K.</h5>
+<p class="text-sm text-gray-500">Regular Customer</p>
+</div>
+</div>
+</div>
+<div class="bg-loc-surface p-8 rounded-2xl border border-gray-100 shadow-sm text-left relative">
+<div class="text-loc-red text-2xl mb-4">★★★★★</div>
+<p class="text-gray-600 font-medium leading-relaxed mb-6">"LOC special maggi with cold coffee is my go-to order. I love how fast the service is even when it's crowded."</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-gray-300 rounded-full overflow-hidden">
+<img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80" alt="Customer" class="w-full h-full object-cover">
+</div>
+<div>
+<h5 class="font-bold text-gray-900">Aman D.</h5>
+<p class="text-sm text-gray-500">Food Blogger</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="py-24 bg-loc-red text-white">
+<div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+<div class="text-left">
+<h2 class="text-4xl md:text-5xl font-black mb-6 uppercase tracking-tight">Become a Franchise Partner</h2>
+<p class="text-xl leading-relaxed text-red-100 mb-8 font-medium">Join the fastest growing tea chain in Maharashtra. Empower your entrepreneurial journey with our proven business model, training, and robust support system.</p>
+<ul class="space-y-4 text-lg font-medium text-red-50">
+<li class="flex items-center gap-3"><span class="bg-white text-loc-red rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">✓</span> Low Investment, High ROI</li>
+<li class="flex items-center gap-3"><span class="bg-white text-loc-red rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">✓</span> Complete Setup Support</li>
+<li class="flex items-center gap-3"><span class="bg-white text-loc-red rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">✓</span> Marketing & Branding Help</li>
+</ul>
+</div>
+<div class="bg-white rounded-3xl p-10 shadow-2xl text-gray-800">
+<h3 class="text-2xl font-extrabold text-gray-900 mb-6 text-center">Enquire Now</h3>
+<div class="space-y-4">
+<input type="text" placeholder="Your Name" class="w-full px-5 py-3 rounded-lg border border-gray-200 focus:border-loc-red focus:ring-1 focus:ring-loc-red transition">
+<input type="tel" placeholder="Phone Number" class="w-full px-5 py-3 rounded-lg border border-gray-200 focus:border-loc-red focus:ring-1 focus:ring-loc-red transition">
+<input type="text" placeholder="City" class="w-full px-5 py-3 rounded-lg border border-gray-200 focus:border-loc-red focus:ring-1 focus:ring-loc-red transition">
+<select class="w-full px-5 py-3 rounded-lg border border-gray-200 focus:border-loc-red focus:ring-1 focus:ring-loc-red transition text-gray-500">
+<option value="">Investment Budget</option>
+<option value="5-10">₹5L - ₹10L</option>
+<option value="10-15">₹10L - ₹15L</option>
+<option value="15+">Above ₹15L</option>
+</select>
+<button class="w-full bg-loc-red hover:bg-loc-darkred text-white font-bold py-4 rounded-lg text-lg transition mt-2 shadow-md">SUBMIT APPLICATION</button>
+</div>
+</div>
+</div>
+</section>
+
+<footer class="bg-gray-900 text-white py-16 border-t-4 border-loc-red">
+<div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
+<div>
+<h4 class="text-3xl font-black text-white mb-5 tracking-wide">LOC <span class="text-loc-red">CAFÉ</span></h4>
+<p class="text-gray-400 font-medium leading-relaxed">Join Us on a Journey: Dive into Our Story.</p>
+</div>
+<div>
+<h4 class="text-lg font-bold mb-6 text-white uppercase tracking-wider">Quick Links</h4>
+<ul class="space-y-3 text-gray-400 font-medium">
+<li><a href="#" class="hover:text-loc-red transition">HOME</a></li>
+<li><a href="#" class="hover:text-loc-red transition">ABOUT US</a></li>
+<li><a href="#" class="hover:text-loc-red transition">FRANCHISE</a></li>
+<li><a href="#" class="hover:text-loc-red transition">STORE LOCATOR</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-lg font-bold mb-6 text-white uppercase tracking-wider">Contact Us</h4>
+<p class="text-gray-400 font-medium mb-3">LOC PREMIUM CAFE, BESIDE GOLDEN BLISS HOTEL, TRIMURTI NAGAR, NAGPUR</p>
+<p class="text-gray-400 font-medium mb-3">Phone: <span class="text-white">9284777527</span></p>
+<p class="text-gray-400 font-medium">Email: <span class="text-white">infolifeofchai@gmail.com</span></p>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm font-medium">
+&copy; 2024 LIFE OF CHAI. All Rights Reserved. | Privacy Policy | Terms of Service
+</div>
+</footer>
+
+<script>
+window.onload = function() {
+const modalOverlay = document.getElementById('modalOverlay');
+const closeModal = document.getElementById('closeModal');
+const openModalHero = document.getElementById('openModalHero');
+const openStoreModalBtn = document.getElementById('openStoreModalBtn');
+const storeModalOverlay = document.getElementById('storeModalOverlay');
+const closeStoreModal = document.getElementById('closeStoreModal');
+const heroTitle = document.getElementById('heroTitle');
+const subscribeBtn = document.getElementById('subscribeBtn');
+const subName = document.getElementById('subName');
+const subEmail = document.getElementById('subEmail');
+const subMessage = document.getElementById('subMessage');
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+
+setTimeout(() => {
+modalOverlay.style.display = 'block';
+modalOverlay.classList.remove('hidden');
+modalOverlay.classList.add('fade-in-animation');
+}, 1500);
+
+heroTitle.classList.add('fade-in-animation');
+
+function showModal(overlay) {
+overlay.style.display = 'block';
+overlay.classList.remove('hidden');
+overlay.classList.add('fade-in-animation');
+}
+
+function hideModal(overlay) {
+overlay.style.display = 'none';
+overlay.classList.add('hidden');
+}
+
+closeModal.onclick = () => hideModal(modalOverlay);
+modalOverlay.onclick = (e) => { if (e.target === modalOverlay) hideModal(modalOverlay); };
+if(openModalHero) openModalHero.onclick = () => showModal(modalOverlay);
+
+if(openStoreModalBtn) openStoreModalBtn.onclick = () => showModal(storeModalOverlay);
+closeStoreModal.onclick = () => hideModal(storeModalOverlay);
+storeModalOverlay.onclick = (e) => { if (e.target === storeModalOverlay) hideModal(storeModalOverlay); };
+
+if(mobileMenuBtn) {
+mobileMenuBtn.onclick = () => {
+if(mobileMenu.classList.contains('hidden')) {
+mobileMenu.classList.remove('hidden');
+} else {
+mobileMenu.classList.add('hidden');
+}
+};
+}
+
+if(subscribeBtn) {
+subscribeBtn.onclick = function() {
+if(subName.value.trim() === '' || subEmail.value.trim() === '') {
+subMessage.textContent = 'Please fill all fields!';
+subMessage.className = 'text-sm font-bold mt-4 p-3 rounded-lg text-center transition-all duration-300 bg-red-100 text-red-600 block';
+return;
+}
+if(!subEmail.value.includes('@')) {
+subMessage.textContent = 'Please enter a valid email!';
+subMessage.className = 'text-sm font-bold mt-4 p-3 rounded-lg text-center transition-all duration-300 bg-red-100 text-red-600 block';
+return;
+}
+
+subscribeBtn.innerText = 'SUBSCRIBING...';
+subscribeBtn.classList.add('opacity-75');
+
+setTimeout(() => {
+subMessage.textContent = 'Welcome to the club, ' + subName.value.split(' ')[0] + '! Check your email.';
+subMessage.className = 'text-sm font-bold mt-4 p-3 rounded-lg text-center transition-all duration-300 bg-green-100 text-green-700 block';
+subscribeBtn.innerText = 'SUBSCRIBED ✔';
+subscribeBtn.classList.remove('bg-loc-red', 'hover:bg-loc-darkred');
+subscribeBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+
+setTimeout(() => {
+hideModal(modalOverlay);
+subName.value = '';
+subEmail.value = '';
+subMessage.className = 'hidden';
+subscribeBtn.innerText = 'SUBSCRIBE NOW';
+subscribeBtn.classList.remove('bg-green-600', 'hover:bg-green-700', 'opacity-75');
+subscribeBtn.classList.add('bg-loc-red', 'hover:bg-loc-darkred');
+}, 2500);
+}, 1000);
+};
+}
+};
+</script>
+
+</body>
+</html>
